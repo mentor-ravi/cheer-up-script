@@ -329,7 +329,7 @@ const Events = () => {
                         }}
                       >
                         {/* Backdrop filter overlay */}
-                        <div className="absolute inset-0 backdrop-blur-sm bg-black/40 rounded-2xl"></div>
+                        <div className="absolute inset-0 backdrop-blur-2xl bg-black/50 rounded-2xl"></div>
                         
                         {/* Centered banner image */}
                         <img 
