@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Calendar, MapPin, Users, Clock, Trophy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -45,6 +46,7 @@ import echoesIntellect from "@/assets/event-echoes-intellect.png";
 const EventsGallery = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [imagePopup, setImagePopup] = useState<{ src: string; alt: string } | null>(null);
   const eventCategories = [{
     label: "All",
     count: 0
@@ -403,8 +405,12 @@ const EventsGallery = () => {
 
         {/* Events Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredEvents.map(event => <div key={event.id} className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-              <img src={event.image} alt={event.title} className="w-full h-full object-cover aspect-[9/16] transition-transform duration-500 group-hover:scale-105" />
+          {filteredEvents.map(event => <div 
+              key={event.id} 
+              className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer bg-muted/30 flex items-center justify-center"
+              onClick={() => setImagePopup({ src: event.image, alt: event.title })}
+            >
+              <img src={event.image} alt={event.title} className="w-full h-full object-contain aspect-[9/16] transition-transform duration-500 group-hover:scale-105" />
             </div>)}
         </div>
       </section>
@@ -413,6 +419,51 @@ const EventsGallery = () => {
       <section id="registration-section" className="bg-gradient-to-b from-background to-muted/30 py-16">
         <RegistrationForm />
       </section>
+
+      {/* Image Popup */}
+      <Dialog open={!!imagePopup} onOpenChange={() => setImagePopup(null)}>
+        <DialogContent className="max-w-6xl max-h-[95vh] p-0 bg-transparent border-0 shadow-none">
+          {imagePopup && (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Backdrop with 30% opacity */}
+              <div className="absolute inset-0 backdrop-blur-sm bg-black/30 rounded-lg" />
+              
+              {/* Image */}
+              <div className="relative z-10 w-full max-h-[90vh] flex items-center justify-center p-4">
+                <img 
+                  src={imagePopup.src} 
+                  alt={imagePopup.alt} 
+                  className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                />
+              </div>
+              
+              {/* Close Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-4 right-4 z-20 bg-background/80 hover:bg-background backdrop-blur-sm"
+                onClick={() => setImagePopup(null)}
+              >
+                <span className="sr-only">Close</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>;
