@@ -410,7 +410,7 @@ const EventsGallery = () => {
               className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer bg-muted/30 flex items-center justify-center"
               onClick={() => setImagePopup({ src: event.image, alt: event.title })}
             >
-              <img src={event.image} alt={event.title} className="w-full h-full object-contain aspect-[9/16] transition-transform duration-500 group-hover:scale-105" />
+              <img src={event.image} alt={event.title} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
             </div>)}
         </div>
       </section>
