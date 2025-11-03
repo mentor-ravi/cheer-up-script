@@ -320,15 +320,28 @@ const Events = () => {
                   {/* Front Face */}
                   <div className="absolute inset-0 rounded-2xl overflow-hidden [backface-visibility:hidden] pointer-events-none">
                     {event.banner_url ? (
-                      <div className="relative w-full min-h-[400px] flex items-center justify-center bg-muted/30">
+                      <div 
+                        className="relative w-full min-h-[400px] flex items-center justify-center"
+                        style={{
+                          backgroundImage: `url(${event.banner_url})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center'
+                        }}
+                      >
+                        {/* Backdrop filter overlay */}
+                        <div className="absolute inset-0 backdrop-blur-sm bg-black/40 rounded-2xl"></div>
+                        
+                        {/* Centered banner image */}
                         <img 
                           src={event.banner_url} 
                           alt={event.title} 
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-auto object-contain rounded-2xl"
+                          className="relative z-10 w-full h-auto object-contain rounded-2xl max-h-[300px]"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent rounded-2xl"></div>
+                        
+                        {/* Bottom gradient for text readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent rounded-2xl z-20"></div>
                       </div>
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30">
@@ -336,7 +349,7 @@ const Events = () => {
                       </div>
                     )}
                     
-                    <Badge className={`absolute top-4 right-4 z-10 ${
+                    <Badge className={`absolute top-4 right-4 z-30 ${
                       event.status === "upcoming" 
                         ? "bg-primary/90 text-primary-foreground backdrop-blur-sm" 
                         : event.status === "ongoing" 
@@ -346,7 +359,7 @@ const Events = () => {
                       {event.status}
                     </Badge>
 
-                    <div className="absolute inset-x-0 bottom-0 p-4 z-10">
+                    <div className="absolute inset-x-0 bottom-0 p-4 z-30">
                       <h3 className="text-2xl font-bold text-white leading-tight line-clamp-2">
                         {event.title}
                       </h3>
